@@ -19,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * DTO for the entity User
+ * DTO for the entity UserDao
  */
 @Data
 public class UserDto {
