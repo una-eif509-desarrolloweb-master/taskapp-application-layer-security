@@ -4,7 +4,6 @@ import cr.una.taskapp.backend.dao.IRoleDao;
 import cr.una.taskapp.backend.dao.IUserDao;
 import cr.una.taskapp.backend.model.Privilege;
 import cr.una.taskapp.backend.model.Role;
-import cr.una.taskapp.backend.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -15,11 +14,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-@Service("userDetailsService")
+import static java.util.Collections.emptyList;
+
+@Service()
 @Transactional
 public class AppUserDetailsService implements UserDetailsService {
 
@@ -36,19 +36,16 @@ public class AppUserDetailsService implements UserDetailsService {
      * object that comes back may have a username that is of a different case than what
      * was actually requested..
      *
-     * @param email the username identifying the user whose data is required.
+     * @param username the username identifying the user whose data is required.
      * @return a fully populated user record (never <code>null</code>)
      * @throws UsernameNotFoundException if the user could not be found or the user has no
      *                                   GrantedAuthority
      */
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userDao.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        cr.una.taskapp.backend.model.User user = userDao.findByUsername(username);
         if (user == null) {
-            return new org.springframework.security.core.userdetails.User(
-                    " ", " ", true, true, true, true,
-                    getAuthorities(Arrays.asList(
-                            roleDao.findByName("ROLE_USER"))));
+            throw new UsernameNotFoundException(username);
         }
 
         return new org.springframework.security.core.userdetails.User(

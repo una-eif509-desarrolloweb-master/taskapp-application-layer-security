@@ -13,6 +13,7 @@
 
 package cr.una.taskapp.backend.webservice;
 
+import cr.una.taskapp.backend.common.Constants;
 import cr.una.taskapp.backend.dto.PriorityDto;
 import cr.una.taskapp.backend.model.Priority;
 import cr.una.taskapp.backend.service.IPriorityService;
@@ -31,7 +32,7 @@ import java.util.stream.Collectors;
  */
 @Controller
 @CrossOrigin
-@RequestMapping(value = "/api/v1/priorities")
+@RequestMapping(value = Constants.URL_PREFIX + "priorities")
 public class PriorityController {
 
     @Autowired

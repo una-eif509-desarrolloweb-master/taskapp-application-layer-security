@@ -38,6 +38,24 @@ public class UserDao extends AbstractHibernateDao implements IUserDao {
     }
 
     /**
+     * Method to find the entity by email
+     *
+     * @param username the username of the entity to find
+     * @return the corresponding UserDao
+     */
+    @Override
+    public User findByUsername(String username) {
+        User user = null;
+        Query query = getCurrentSession().createQuery("from User u where u.username = :username");
+        query.setParameter("username", username);
+        if (query.getResultList().size()>0) {
+            user = (User) query.getResultList().get(0);
+        }
+
+        return user;
+    }
+
+    /**
      * Method to find all entities
      *
      * @return the list of entities of UserDao

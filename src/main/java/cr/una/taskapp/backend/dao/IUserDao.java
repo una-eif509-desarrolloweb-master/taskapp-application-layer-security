@@ -24,6 +24,13 @@ public interface IUserDao {
     public User findByEmail (final String email);
 
     /**
+     * Method to find the entity by email
+     * @param username the username of the entity to find
+     * @return the corresponding UserDao
+     */
+    public User findByUsername (final String username);
+
+    /**
      * Method to find all entities
      * @return the list of entities of UserDao
      */

@@ -28,6 +28,7 @@ public class UserDto {
     private String lastName;
     private String password;
     private String email;
+    private String username;
     private Date createDate;
     private boolean enabled;
     private boolean tokenExpired;

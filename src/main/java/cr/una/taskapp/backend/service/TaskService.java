@@ -1,8 +1,9 @@
 package cr.una.taskapp.backend.service;
 
-import cr.una.taskapp.backend.dao.IPriorityDao;
 import cr.una.taskapp.backend.model.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -11,6 +12,8 @@ import java.util.List;
  *
  * The Service for Task
  */
+@Service
+@Transactional
 public class TaskService implements ITaskService{
 
     @Autowired
