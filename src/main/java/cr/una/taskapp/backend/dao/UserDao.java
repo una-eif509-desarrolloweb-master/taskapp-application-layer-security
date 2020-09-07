@@ -1,10 +1,10 @@
 package cr.una.taskapp.backend.dao;
 
 import com.google.common.base.Preconditions;
-import cr.una.taskapp.backend.model.Priority;
 import cr.una.taskapp.backend.model.User;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -21,6 +21,20 @@ public class UserDao extends AbstractHibernateDao implements IUserDao {
     @Override
     public User findById(long id) {
         return getCurrentSession().get(User.class, id);
+    }
+
+    /**
+     * Method to find the entity by email
+     *
+     * @param email the email of the entity to find
+     * @return the corresponding UserDao
+     */
+    @Override
+    public User findByEmail(String email) {
+        Query query = getCurrentSession().createQuery("from User u where u.email = :email");
+        query.setParameter("email", email);
+
+        return (User) query.getResultList().get(0);
     }
 
     /**
