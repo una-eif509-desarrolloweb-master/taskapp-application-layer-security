@@ -1,15 +1,12 @@
 package cr.una.taskapp.backend.webservice;
 
 import cr.una.taskapp.backend.common.Constants;
-import cr.una.taskapp.backend.dto.PriorityDto;
 import cr.una.taskapp.backend.dto.UserDto;
-import cr.una.taskapp.backend.model.Priority;
 import cr.una.taskapp.backend.model.User;
 import cr.una.taskapp.backend.service.IUserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +25,6 @@ public class UserController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     /**
      * Save the new User
      * @param userDto the User saved
@@ -40,7 +34,6 @@ public class UserController {
     @ResponseBody
     public UserDto signUp(@Valid @RequestBody UserDto userDto) {
         User user = convertToEntity(userDto);
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return convertToDto(service.create(user));
     }
 

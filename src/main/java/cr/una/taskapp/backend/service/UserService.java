@@ -1,11 +1,16 @@
 package cr.una.taskapp.backend.service;
 
+import cr.una.taskapp.backend.dao.IRoleDao;
 import cr.una.taskapp.backend.dao.IUserDao;
 import cr.una.taskapp.backend.model.User;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -14,6 +19,12 @@ public class UserService implements IUserService {
 
     @Autowired
     private IUserDao dao;
+
+    @Autowired
+    private IRoleDao roleDao;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * Method to find the entity by id
@@ -44,6 +55,14 @@ public class UserService implements IUserService {
      */
     @Override
     public User create(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        if (user.getCreateDate() == null) {
+            DateTime dt = new DateTime();
+            user.setCreateDate(dt.toDate());
+        }
+        user.setEnabled(true);
+        user.setRoleList(Collections.singletonList(roleDao.findByName("ROLE_USER")));
+
         return dao.create(user);
     }
 

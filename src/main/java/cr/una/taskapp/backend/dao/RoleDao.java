@@ -19,8 +19,14 @@ public class RoleDao extends AbstractHibernateDao implements IRoleDao {
      */
     @Override
     public Role findByName(String name) {
+        Role role = null;
         Query query = getCurrentSession().createQuery("from Role r where r.name = :name");
         query.setParameter("name", name);
 
-        return (Role) query.getResultList().get(0);    }
+        if (query.getResultList().size() > 0) {
+            role = (Role) query.getResultList().get(0);
+        }
+
+        return role;
+    }
 }

@@ -7,6 +7,7 @@ import cr.una.taskapp.backend.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -45,10 +47,14 @@ public class AppUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         cr.una.taskapp.backend.model.User user = userDao.findByUsername(username);
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            return new User(
+                    " ", " ", true, true, true, true,
+                    getAuthorities(Arrays.asList(
+                            roleDao.findByName("ROLE_USER"))));
+            // throw new UsernameNotFoundException(username);
         }
 
-        return new org.springframework.security.core.userdetails.User(
+        return new User(
                 user.getEmail(), user.getPassword(), user.isEnabled(), true, true,
                 true, getAuthorities(user.getRoleList()));
     }
