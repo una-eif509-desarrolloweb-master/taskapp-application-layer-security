@@ -19,8 +19,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import static java.util.Collections.emptyList;
-
 @Service()
 @Transactional
 public class AppUserDetailsService implements UserDetailsService {
@@ -55,7 +53,7 @@ public class AppUserDetailsService implements UserDetailsService {
         }
 
         return new User(
-                user.getEmail(), user.getPassword(), user.isEnabled(), true, true,
+                user.getUsername(), user.getPassword(), user.isEnabled(), true, true,
                 true, getAuthorities(user.getRoleList()));
     }
 
